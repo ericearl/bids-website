@@ -1,7 +1,7 @@
 # BEP process
 
 Small contributions (typos, rephrasing of a description, adding a single new metadata field)
-can be proposed as a [Pull Request on GitHub](https://github.com/bids-standard/bids-specification/pulls)
+can be proposed as a [Pull Request on GitHub](https://github.com/bids-standard/bids-specification/pulls).
 Larger contributions that are expected to involve longer and more involved discussions
 may take the form of a BIDS extension proposal (BEP).
 
@@ -18,6 +18,8 @@ to new techniques, and file types and descriptors.
 We keep an updated list of
 [completed BEPS](./beps.md#completed-beps) and
 [draft/proposed BEPs](./beps.md#bids-extension-proposals).
+There is also a newer [BEP status dashboard](https://github.com/orgs/bids-standard/projects/19/views/2)
+if you would like to see BEP statuses at-a-glance.
 
 ## Is a BEP even required?
 
@@ -42,11 +44,11 @@ BEP_issue_exist -- yes --> Join_discussion
 
 !!! warning "Before starting a new extension!"
 
-    Developing a new BIDS extension a long process (think years not months)
+    Developing a new BIDS extension is a long process (think years not months)
     that requires a lot of work and coordination.
 
     Also take into account,
-    you may be consulted **years after BEP you workded on is merged into the BIDS specification**,
+    you may be consulted **years after a BEP you worked on is merged into the BIDS specification**,
     to advise regarding new updates to this BEP.
 
     So before you embark on this journey, make sure that you have:
@@ -59,7 +61,7 @@ BEP_issue_exist -- yes --> Join_discussion
 
         to find existing or ongoing efforts
         that may support what you are trying to add into the BIDS Specification.
-        Someone may have already done work for you: so avoid duplicating efforts!
+        Someone may have already done work for you, so avoid duplicating efforts!
 
     -   familiarized yourself with the BIDS community by browsing current issues,
         discussions, and proposed changes on
@@ -78,7 +80,7 @@ Once a BEP has been opened (see the next [section](#starting-your-bep)),
 it goes from `Draft BEP` to `Proposed BEP` to `Merged BEP`.
 
 A `Draft BEP` is usually a Google document (see [governance](../collaboration/governance.md#draft-bep)),
-where as `Proposed BEP` refers to pull request to BIDS specification repository
+whereas `Proposed BEP` refers to pull request to BIDS specification repository
 (see [governance](../collaboration/governance.md#proposed-bep)).
 
 ```mermaid
@@ -135,7 +137,7 @@ proposed_bep_review -- positive evaluation --> merged_bep
 
 ### Deliverables
 
-In the end a BEP should produce several deliverables
+In the end, a BEP should produce several deliverables
 that will be evaluated during the `Proposed BEP review`.
 
 ```mermaid
@@ -261,8 +263,8 @@ More details on how to proceed are described below.
 1.  Once you had approval from the BIDS Steering group,
     register the BEP with a number on the BIDS website.
 
-    To obtain a number for your BEP open [a pull request](https://github.com/bids-standard/bids-website/pulls)
-    to the [website GitHub repository][bids_website_gh]
+    To obtain a number for your BEP, open [a pull request](https://github.com/bids-standard/bids-website/pulls)
+    to the [bids-website GitHub repository][bids_website_gh]
     where you provide information about your BEP
     by updating the file [`data/beps/beps.yml`](https://github.com/bids-standard/bids-website/blob/main/data/beps/beps.yml)
     using the following template:
@@ -293,7 +295,7 @@ While working on your extension, make sure to do the following:
 
         Creating datasets may also happen later,
         once you have opened a `Proposed BEP` (see below),
-        but we recommend doing this very early even for `Draft BEP`
+        but we recommend doing this very early even for a `Draft BEP`
         as this may provide valuable information with regards
         to the feasibility / complexity of the content of the BEP.
 
@@ -317,7 +319,8 @@ Once you think your `Draft BEP` is mature enough, you can transition to a `Propo
 Criteria:
 
 -   Consensus reached among the BEP Working Group.
--   Integrates into the current edition of the standard and is consistent with the BIDS Mission Statement.
+-   Integrates into the current edition of the standard and is consistent with
+    the [BIDS Mission Statement](../collaboration/governance.md#b-bids-mission-statement).
 -   Clearly defines a filename template and field names.
 
 To confirm your BEP is ready for this transition,
@@ -338,7 +341,7 @@ Once your `Draft BEP` has been positively evaluated, the BIDS maintainers will:
 
     This should ensure that your team has elevated permissions for the pull request for your BEP.
 
-You can then convert working document to markdown and commit it to your BEP branch before opening a pull request.
+You can then convert your working document to markdown and commit it to your BEP branch before opening a pull request.
 
 !!! note
 
@@ -354,7 +357,8 @@ Criteria:
 
 -   Consensus reached among the BEP Working Group.
 
--   Integrates into the current edition of the standard and is consistent with the BIDS Mission Statement.
+-   Integrates into the current edition of the standard and is consistent with
+    the [BIDS Mission Statement](../collaboration/governance.md#b-bids-mission-statement).
 
 -   Clearly defines a filename template and field names.
 
