@@ -328,17 +328,19 @@ ask for `Draft BEP review` by contacting the BIDS maintainers and steering group
 
 ### Proposed BEP
 
-Once your `Draft BEP` has been positively evaluated, the BIDS maintainers will:
+Once your `Draft BEP` has been positively evaluated by the BIDS maintainers, the BIDS maintainers will:
 
--   Create a new branch off of the `bids-specification` repository.
+-   Optionally create a new branch off of the `bids-specification` repository (Recommended). (BEP could also be hosted on a fork of the `bids-specification` outside)
 
--   Name the branch following the BEP tag convention: `bep###` (e.g. `bep003`).
+-   Optionally create a new branch off of the `bids-examples` repository (Recommended). (BEP could also be hosted on a fork of the `bids-examples` outside)
+
+    -   The branch name SHOULD be following the BEP tag convention: `bep###` (e.g. `bep003`).
 
 -   Create a github [BEP team](https://github.com/orgs/bids-standard/teams) for that BEP and add the BEP lead to that team.
 
     This should ensure that your team has elevated permissions for the pull request for your BEP.
 
-You can then convert working document to markdown and commit it to your BEP branch before opening a pull request.
+You can then convert working document and examples to markdown and commit it to your BEP branch before opening a pull request.
 
 !!! note
 
@@ -348,17 +350,23 @@ You can then convert working document to markdown and commit it to your BEP bran
 -   Label your pull requests with your BEP tag
     (this will signal to the community which are for the specification or associated with a specific BEP).
 
+-   BIDS Maintainers and BEP leads will also start working on the Schema followning the BEP's proposed specifications.
+
+-   Maintainers and BEP leads SHOULD communicate development process every quarter.
+
 ### Proposed BEP review
 
 Criteria:
 
--   Consensus reached among the BEP Working Group.
+-   Consensus reached among the BEP Working Group (communicated by the BEP to BIDS Maintainers).
+
+-   Schema and Examples are completed and reflects the proposed BEP specifications.
 
 -   Integrates into the current edition of the standard and is consistent with the BIDS Mission Statement.
 
 -   Clearly defines a filename template and field names.
 
--   Use cases and examples clearly illustrated.
+-   Use cases and examples clearly illustrated as a .
 
 -   At least 10 business days of community feedback publicly posted across the BIDS channels.
 
