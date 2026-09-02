@@ -529,6 +529,20 @@ apps:
     ci: circleci
     branch: main
 
+-   gh: PennLINC/simbids
+    status: active
+    dh: pennlinc/simbids
+    ds_type:
+    -   raw
+    -   derivative
+    datatype:
+    -   anat
+    -   func
+    -   dwi
+    description: Simulate BIDS MRI data and BIDS Derivatives for CI testing
+    ci: gh
+    branch: main
+
 -   gh: poldracklab/fitlins
     status: active
     dh: poldracklab/fitlins
@@ -599,3 +613,14 @@ apps:
     branch: main
     ci: aws_codebuild
     badge: https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiYzdXV0tYSkQzTVNkcG04cHA2S055UXlKRlZTU1VONThUMVRoZVcwU3l1aHFhdVBlNDNaRGVCYzdWM1Q0WjYzQ1lRU2ZTSHpmSERPWFRkVXVyb3k3RTZBPSIsIml2UGFyYW1ldGVyU3BlYyI6IjRCZFFIQnNGT2lKcDA1VG4iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main
+-   gh: SpinePrep/SpinePrep
+    status: active
+    ds_type:
+    -   raw
+    datatype:
+    -   anat
+    -   func
+    description: SpinePrep is a containerised BIDS-App for reproducible, QC-first preprocessing of human spinal-cord fMRI, automating the recommended cord-fMRI
+        recipe (SCT, FSL, PAM50) with per-vertebral-level quality control.
+    branch: main
+    ci: gh
