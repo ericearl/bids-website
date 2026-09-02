@@ -81,7 +81,7 @@ For the typical steps involved in each phase, see [Starting your BEP](#starting-
 
 A successful BEP moves through the lifecycle from `Draft BEP` to `Proposed BEP` to `Merged BEP`. Between each phase, BEP leaders bring the BEP to the BIDS Maintainers for guidance and review.
 
-In a nutshell, a typical `Draft BEP` is in the format of Google Doc and is actively undergoing development and/or community review.  (see [governance](../collaboration/governance.md#draft-bep)),
+In a nutshell, a typical `Draft BEP` is in the format of a Google Doc and is actively undergoing development and/or community review (see [governance](../collaboration/governance.md#draft-bep)).
 In contrast, a `Proposed BEP` refers to a GitHub pull request to the BIDS specification repository
 (see [governance](../collaboration/governance.md#proposed-bep)), after a general level of community consensus has been achieved (via the Google Doc).
 
