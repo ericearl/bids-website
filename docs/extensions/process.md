@@ -385,7 +385,7 @@ The Steering Group evaluates, with inputs from BEP leads and the BIDS Maintainer
 -   Final review of the integration into the BIDS standard.
 
 The BEP lead(s) will work with the BIDS maintainers to coordinate the community review period.
-If community consensus cannot be reached through Google Doc/GitHub discussion
+If community consensus cannot be reached through the Google Doc/GitHub discussion
 or Working Group calls, the BEP leads can request the BIDS Maintainers facilitate consulting with BIDS Steering.
 
 The community review period is scheduled _after_ the pull request has been opened.
