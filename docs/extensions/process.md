@@ -120,7 +120,7 @@ proposed_bep_review -- negative evaluation --> proposed_bep
 proposed_bep_review -- positive evaluation --> merged_bep
 ```
 
-#### Closing a BEP
+#### Rejected BEPs
 
 In consultation with the BEP leads, it is possible, but rare, that the BIDS Maintainers and/or Steering may determine that a Draft BEP can be addressed under the scope of another BIDS Extension, or is beyond the scope of BIDS.
 
