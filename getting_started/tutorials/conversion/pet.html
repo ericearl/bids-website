@@ -1,0 +1,6006 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://bids.neuroimaging.io/getting_started/tutorials/conversion/pet.html">
+      
+      
+        <link rel="prev" href="mri.html">
+      
+      
+        <link rel="next" href="../../how_to/index.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/favicon/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>PET data conversion - The Brain Imaging Data Structure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M22%2012a10%2010%200%200%201-10%2010A10%2010%200%200%201%202%2012%2010%2010%200%200%201%2012%202a10%2010%200%200%201%2010%2010M6%2013h8l-3.5%203.5%201.42%201.42L17.84%2012l-5.92-5.92L10.5%207.5%2014%2011H6z%22/%3E%3C/svg%3E');}</style>
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-C43VJZD2XC"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-C43VJZD2XC",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-C43VJZD2XC",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pet-data-conversion" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="The Brain Imaging Data Structure" class="md-header__button md-logo" aria-label="The Brain Imaging Data Structure" data-md-component="logo">
+      
+  <img src="../../../assets/img/logos/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            The Brain Imaging Data Structure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PET data conversion
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/bids-standard/bids-website/tree/main" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About BIDS
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../standards/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Ecosystem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../collaboration/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get involved
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../impact/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Impact
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../faq/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  FAQ
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../contact/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contact
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="The Brain Imaging Data Structure" class="md-nav__button md-logo" aria-label="The Brain Imaging Data Structure" data-md-component="logo">
+      
+  <img src="../../../assets/img/logos/logo.png" alt="logo">
+
+    </a>
+    The Brain Imaging Data Structure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/bids-standard/bids-website/tree/main" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About BIDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../folders_and_files/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Folders and files
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Folders and files
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folders_and_files/folders.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Folders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folders_and_files/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../folders_and_files/metadata/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2_4" id="__nav_2_2_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folders_and_files/metadata/json.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JSON
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folders_and_files/metadata/tsv.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TSV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../folders_and_files/derivatives.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Derivatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../resources/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/links.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/glossary.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/dependencies.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dependencies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/talks.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Talks and slides
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../bids_apps/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS apps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BIDS apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bids_apps/tutorial.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running a BIDS App
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../annotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annotating a BIDS dataset
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conversion
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5_3" id="__nav_2_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Conversion
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="asl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASL data conversion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ieeg.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    iEEG data conversion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mri.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MRI data conversion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PET data conversion
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="pet.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PET data conversion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        History
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pet-image-data-file-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PET image data file formats
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conversion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conversion-of-pet-data-using-pet2bids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversion of PET data using PET2BIDS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-conversion-of-pet-data-to-pet-bids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual conversion of PET data to PET BIDS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-your-converted-pet-bids-data-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validating your converted PET BIDS data set
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validating your converted PET BIDS data set">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-validator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the validator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validating-your-new-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validating your new dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-and-resources-for-pet-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tools and resources for PET conversion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-thoughts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final thoughts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../how_to/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    How to
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../templates/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Templates
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Templates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../standards/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../standards/bids_specification/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS Specification
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BIDS Specification
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../standards/schema/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS Schema
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BIDS Schema
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_2" id="__nav_3_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    how it works
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    how it works
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../standards/schema/how-the-schema-works.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How the schema works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../standards/schema/schema-meta.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Meta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../standards/schema/schema-objects.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../standards/schema/schema-rules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../standards/bids_stats_model/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS Stats Model
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BIDS Stats Model
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../standards/bids_app_specification/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS Apps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BIDS Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../extensions/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extensions
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../extensions/beps.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS extension proposals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../extensions/process.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BEP process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../extensions/guidelines.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BEP guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../extensions/macros_doc.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using MkDocs macros
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../tools/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/converters.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Converters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/validator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/bids-apps.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/others.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../software_development/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../datasets/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datasets
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_8" id="__nav_3_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Datasets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../datasets/examples.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collaboration/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get involved
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get involved
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/governance.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/working-groups.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/bids_github/CONTRIBUTING.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/publications.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Publications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/CONTRIBUTING.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing to the BIDS website
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/contributors.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/bids_github/CODE_OF_CONDUCT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code of conduct
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/acknowledgments.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acknowledgments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collaboration/reports/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_10" id="__nav_4_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_10_2" id="__nav_4_10_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Google summer
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_10_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_10_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Google summer
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/reports/google_summer/2018-gsoc.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GSOC 2018
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../collaboration/reports/google_summer/2024-gsod.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GSOD 2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../impact/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Impact
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Impact
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../impact/measuring.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measuring BIDS Impact
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../faq/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    FAQ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../faq/general.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../faq/eeg.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EEG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../faq/mri.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MRI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../faq/phenotype.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phenotype
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../faq/bids-extensions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS extensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../faq/bids-apps.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIDS apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../blog/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2026.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2025.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2024.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2023.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2022.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2021.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2021
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2020.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2020
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2019.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/announcement.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    announcement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/community-review.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    community review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/election.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    election
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/news.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    news
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/release.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    release
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/schema.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/steering-group-minutes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    steering group minutes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/town-hall.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    town hall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/townhall.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    townhall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/validator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    validator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../contact/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contact
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contact
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        History
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pet-image-data-file-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PET image data file formats
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conversion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conversion-of-pet-data-using-pet2bids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversion of PET data using PET2BIDS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-conversion-of-pet-data-to-pet-bids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual conversion of PET data to PET BIDS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-your-converted-pet-bids-data-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validating your converted PET BIDS data set
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validating your converted PET BIDS data set">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-validator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the validator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validating-your-new-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validating your new dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-and-resources-for-pet-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tools and resources for PET conversion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-thoughts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final thoughts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/bids-standard/bids-website/edit/main/docs/getting_started/tutorials/conversion/pet.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="pet-data-conversion"><a class="toclink" href="#pet-data-conversion"><abbr title="Positron Imaging Tomography">PET</abbr> data conversion</a><a class="headerlink" href="#pet-data-conversion" title="Permanent link">&para;</a></h1>
+<h2 id="history"><a class="toclink" href="#history">History</a><a class="headerlink" href="#history" title="Permanent link">&para;</a></h2>
+<p>The <abbr title="Positron Imaging Tomography">PET</abbr> modality is an addition to <abbr title="Brain Imaging Data Structure">BIDS</abbr> with its introduction via <abbr title="BIDS Extension Proposal">BEP</abbr> 009.
+If you're interested in seeing exactly what and how something gets added to <abbr title="Brain Imaging Data Structure">BIDS</abbr>
+see the pull request for BEP009
+<a href="https://github.com/bids-standard/bids-specification/pull/633">here</a>.
+The results of that extension proposal can be read
+<a href="https://bids-specification.readthedocs.io/en/stable/04-modality-specific-files/09-positron-emission-tomography.html#positron-emission-tomography">here</a>
+in the <abbr title="Brain Imaging Data Structure">BIDS</abbr> standard.</p>
+<h2 id="pet-image-data-file-formats"><a class="toclink" href="#pet-image-data-file-formats"><abbr title="Positron Imaging Tomography">PET</abbr> image data file formats</a><a class="headerlink" href="#pet-image-data-file-formats" title="Permanent link">&para;</a></h2>
+<p>Before we start to convert data we need to quickly mention
+that <abbr title="Positron Imaging Tomography">PET</abbr> image data files come of the scanner in various different formats:
+some scanners provide DICOM files (.dcm)
+and others use proprietary formats for example ECAT format (.v).
+In order to facilitate easy testing of data conversion across different <abbr title="Positron Imaging Tomography">PET</abbr> file formats
+the <a href="https://openneuropet.github.io/">OpenNeuroPET project</a> has compiled a bunch of phantom data
+from different scanner types and is distributing two examples
+<a href="https://drive.google.com/file/d/1O1hDmJwR1xm6LemIbhPrLf9YkSYHC6Mq/view?usp=sharing">here</a>.</p>
+<p>You can download them for testing purposes either manually
+or in the terminal by typing:</p>
+<pre class="highlight"><code class="language-bash">gdown https://drive.google.com/file/d/1O1hDmJwR1xm6LemIbhPrLf9YkSYHC6Mq/view?usp=sharing --fuzzy</code></pre>
+<p>You may need to install the python package <a href="https://github.com/wkentaro/gdown"><code>gdown</code></a>
+for this to work:</p>
+<pre class="highlight"><code class="language-bash">pip install gdown</code></pre>
+<p>And then unzipping the downloaded file:</p>
+<pre class="highlight"><code class="language-bash">unzip OpenNeuroPET-Demo_raw.zip</code></pre>
+<p>You can now look at the file tree:</p>
+<pre class="highlight"><code class="language-bash">tree OpenNeuroPET-Demo_raw.
+
+OpenNeuroPET-Demo_raw
+│   .bidsignore
+│   dataset_description.json
+│   README
+│
+├───code
+│       .python_conversions.sh.swp
+│       matlab_conversions.m
+│       python_conversions.sh
+│       README.md
+│
+├───source
+│   │
+│   ├───SiemensBiographPETMR-NRU
+│   │       X-CAL_7.PT.Kalibrering_xca.30003.1.2022.04.26.15.04.22.218.14689529.dcm
+│   │       X-CAL_7.PT.Kalibrering_xca.30003.10.2022.04.26.15.04.22.218.14689628.dcm
+│   │       X-CAL_7.PT.Kalibrering_xca.30003.100.2022.04.26.15.04.22.218.14690618.dcm
+│   │       X-CAL_7.PT.Kalibrering_xca.30003.101.2022.04.26.15.04.22.218.14690629.dcm
+│   │       ....
+│   │
+│   └───SiemensHRRT-NRU
+│           XCal-Hrrt-2022.04.21.15.43.05_EM_3D.json
+│           XCal-Hrrt-2022.04.21.15.43.05_EM_3D.v
+│
+├───sub-SiemensBiographNRU
+│   └───pet
+│           sub-SiemensBiographNRU_pet.json
+│           sub-SiemensBiographNRU_pet.nii.gz
+│
+└───sub-SiemensHRRT
+    └───pet
+            sub-SiemensHRRT_pet.json
+            sub-SiemensHRRT_pet.nii.gz</code></pre>
+<p>Now you have an example dataset where you have source data
+(both for ECAT and DICOM <abbr title="Positron Imaging Tomography">PET</abbr> image format)
+and the <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr> data sets constructed for it.</p>
+<p>Also if you have access to another <abbr title="Positron Imaging Tomography">PET</abbr> image file format,
+or data from a scanner not tested,
+please reach out to <a href="https://openneuropet.github.io/">OpenNeuroPET project</a>
+in order to add a phantom scan in your format.</p>
+<h2 id="conversion"><a class="toclink" href="#conversion">Conversion</a><a class="headerlink" href="#conversion" title="Permanent link">&para;</a></h2>
+<p>The <a href="https://openneuropet.github.io/">OpenNeuroPET project</a> has tried to develop tools
+for facilitating easy data conversion for <abbr title="Positron Imaging Tomography">PET</abbr>.
+The main tool used for this is <a href="https://github.com/openneuropet/PET2BIDS">PET2BIDS</a>
+freely available on the <a href="https://github.com/openneuropet">OpenNeuroPET GitHub repository</a>
+along with other resources like altlases or pipelines.</p>
+<p>It is available for both Python and MATLAB.
+Eventually, <a href="https://github.com/openneuropet/PET2BIDS">PET2BIDS</a> will also be wrapped inside other <abbr title="Brain Imaging Data Structure">BIDS</abbr> conversion tools
+such as <a href="https://github.com/Donders-Institute/bidscoin">BIDScoin</a> or
+<a href="https://brainlife.io/ezbids/">ezBIDS</a>,
+but this is work in progress at the moment.</p>
+<p>Besides using <a href="https://github.com/openneuropet/PET2BIDS">PET2BIDS</a> there is always the possibility to manually convert a data set
+to <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr> and an example will be shown below.
+In any case, for DICOM data format, one relies on
+<a href="https://www.nitrc.org/plugins/mwiki/index.php/dcm2nii:MainPage">dcm2niix</a>.</p>
+<p>Below we will show two ways of converting your <abbr title="Positron Imaging Tomography">PET</abbr> data to <abbr title="Brain Imaging Data Structure">BIDS</abbr>:</p>
+<ol>
+<li>using <a href="https://github.com/openneuropet/PET2BIDS">PET2BIDS</a> and</li>
+<li>manually.</li>
+</ol>
+<h3 id="conversion-of-pet-data-using-pet2bids"><a class="toclink" href="#conversion-of-pet-data-using-pet2bids">Conversion of <abbr title="Positron Imaging Tomography">PET</abbr> data using PET2BIDS</a><a class="headerlink" href="#conversion-of-pet-data-using-pet2bids" title="Permanent link">&para;</a></h3>
+<p>Detailed documentation for PET2BIDS can be found
+<a href="https://pet2bids.readthedocs.io/en/latest/index.html#">here</a> or on the
+<a href="https://github.com/openneuropet/PET2BIDS/blob/main/README.md">Github repo</a>.</p>
+<h4 id="get-dcm2niix"><a class="toclink" href="#get-dcm2niix">get dcm2niix</a><a class="headerlink" href="#get-dcm2niix" title="Permanent link">&para;</a></h4>
+<p>Download <a href="https://www.nitrc.org/plugins/mwiki/index.php/dcm2nii:MainPage">dcm2niix</a>,
+and for Mac and Linux users you can add it to your path,
+for instance it would could downloaded and unzipped into <code>/bin</code>.</p>
+<pre class="highlight"><code class="language-bash">export PATH="/home/$USER/bin:$PATH"</code></pre>
+<h4 id="for-python"><a class="toclink" href="#for-python">For Python</a><a class="headerlink" href="#for-python" title="Permanent link">&para;</a></h4>
+<p>Open your terminal, either regular or anaconda terminal and type.</p>
+<pre class="highlight"><code class="language-bash">pip install pypet2bids</code></pre>
+<p>Now you already have the converter installed and can go ahead
+and convert your first dataset!</p>
+<p>In this example, we are converting an image in DICOM format.
+It should be noted that <code>pypet2bids</code> contains several different tools
+and is itself a part of the larger <abbr title="Positron Imaging Tomography">PET</abbr> library <code>PET2BIDS</code>,
+the specific tool we will be using for the following DICOM conversion is <code>dcm2niix4pet</code>.</p>
+<p>You just need to point <code>dcm2niix4pet</code> to:</p>
+<ul>
+<li>the folder where your data resides, <code>dcmfolder</code>, and</li>
+<li>the folder where you want to output the <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr> formatted dataset, <code>mynewfolder</code>.</li>
+</ul>
+<pre class="highlight"><code class="language-bash">dcm2niix4pet dcmfolder -d mynewfolder</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>dcm2niix4pet</code> will do its best to extract as much information
+about radiological and blood data from the DICOM files in the <code>dcmfolder</code>.
+However, <code>dcm2niix4pet</code> can't find information if it isn't there,
+hence it will often be up to you the user
+to provide some missing information at the time of conversion.</p>
+</div>
+<p>Additional information can be provided via the command line
+with the <code>--kwargs</code> argument in the form of key=pair values.
+For an idea of what this looks like see below:</p>
+<pre class="highlight"><code class="language-bash">dcm2niix4pet /OpenNeuroPET-Demo_raw/source/SiemensBiographPETMR-NRU \
+            -d mynewfolder \
+            --kwargs    TimeZero=ScanStart \
+                        Manufacturer=Siemens \
+                        ManufacturersModelName=Biograph \
+                        InstitutionName="Rigshospitalet, NRU, DK" \
+                        BodyPart=Phantom \
+                        Units=Bq/mL \
+                        TracerName=none \
+                        TracerRadionuclide=F18 \
+                        InjectedRadioactivity=81.24 \
+                        SpecificRadioactivity=13019.23 \
+                        ModeOfAdministration=infusion \
+                        FrameTimesStart=0 \
+                        AcquisitionMode="list mode" \
+                        ImageDecayCorrected=true \
+                        ImageDecayCorrectionTime=0 \
+                        AttenuationCorrection=MR-corrected \
+                        FrameDuration=300 \
+                        FrameTimesStart=0</code></pre>
+<p>Now you have a dataset in <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr> format.
+You will probably have gotten some warnings relating to the <code>.json</code> sidecar file.
+Carefully look at them, since they will help you to catch inconsistencies
+and missing required fields that you need to add
+in order for the dataset to pass the <abbr title="Brain Imaging Data Structure">BIDS</abbr> validator as well (see below how that's done).
+You can always edit the <code>.json</code> file, by opening it in a text editor and manually fixing errors.
+Alternatively, adjust the meta structure you created above to correct the errors.</p>
+<h4 id="for-matlab"><a class="toclink" href="#for-matlab">For MATLAB</a><a class="headerlink" href="#for-matlab" title="Permanent link">&para;</a></h4>
+<p>Download/Clone the <a href="https://github.com/openneuropet/PET2BIDS">PET2BIDS</a> GitHub repository.
+Windows users must, in addition, indicate the full path of where is the <code>dcm2niix.exe</code> in
+<a href="https://github.com/openneuropet/PET2BIDS/blob/main/matlab/dcm2niix4pet.m#L42">dcm2niix4pet.m</a>.</p>
+<p>Then, just follow the
+<a href="https://github.com/openneuropet/PET2BIDS/blob/main/matlab/Readme.md">MATLAB README</a>.
+In the following it is just described how to convert DICOM files.
+It's very similar and described in the
+<a href="https://github.com/openneuropet/PET2BIDS/blob/main/matlab/Readme.md">MATLAB README</a>
+how to handle ECAT files.</p>
+<p>The entire PET2BIDS repository or only the MATLAB subfolder (your choice) should be in your MATLAB path.</p>
+<p>Defaults parameters can be set in <code>(scannername).txt</code> files to generate metadata easily
+(meaning to avoid passing all arguments in although this is also possible).
+You can find templates of such parameter file under
+<a href="https://github.com/openneuropet/PET2BIDS/tree/main/matlab/template_txt"><code>/template_txt</code></a>:</p>
+<ul>
+<li>SiemensHRRTparameters.txt,</li>
+<li>SiemensBiographparameters.txt,</li>
+<li>GEAdvanceparameters.txt,</li>
+<li>PhilipsVereosparameters.txt.</li>
+</ul>
+<p>Now in order to convert a <abbr title="Positron Imaging Tomography">PET</abbr> dataset on disk to <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr>,
+one creates a structure containing all the meta information (here passing on all arguments)
+and then point the function to the folder where your data resides <code>dcmfolder</code>
+and the folder where you want to output the <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr> formatted dataset <code>mynewfolder</code>:</p>
+<pre class="highlight"><code class="language-matlab">meta = get_pet_metadata('Scanner', 'SiemensBiograph', ...
+                        'TimeZero', 'ScanStart', ...
+                        'TracerName', 'CB36', ...
+                        'TracerRadionuclide', 'C11', ...
+                        'ModeOfAdministration',  'infusion', ...
+                        'SpecificRadioactivity', 605.3220, ...
+                        'InjectedMass', 1.5934, ...
+                        'MolarActivity', 107.66, ...
+                        'InstitutionName', 'Rigshospitalet, NRU, DK', ...
+                        'AcquisitionMode', 'list mode', ...
+                        'ImageDecayCorrected', 'true', ...
+                        'ImageDecayCorrectionTime', 0, ...
+                        'ReconMethodName', 'OP-OSEM', ...
+                        'ReconMethodParameterLabels', {'subsets', 'iterations'}, ...
+                        'ReconMethodParameterUnits', {'none', 'none'}, ...
+                        'ReconMethodParameterValues', [21 3], ...
+                        'ReconFilterType', 'XYZGAUSSIAN', ...
+                        'ReconFilterSize', 2, ...
+                        'AttenuationCorrection', 'CT-based attenuation correction');
+
+dcm2niix4pet(dcmfolder, meta, 'o', mynewfolder);</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>get_pet_metadata</code> can be called in a much simpler way
+if you have a <code>\*parameters.txt</code> seating on disk next to this function.
+The call would then looks like:</p>
+<pre class="highlight"><code class="language-matlab">% your SiemensBiographparameters.txt file is stored next to get_pet_metadata.m
+meta = get_pet_metadata('Scanner', 'SiemensBiograph', ...
+                        'TimeZero', 'ScanStart', ...
+                        'TracerName', 'CB36', ...
+                        'TracerRadionuclide', 'C11', ...
+                        'ModeOfAdministration', 'infusion', ...
+                        'SpecificRadioactivity', 605.3220, ...
+                        'InjectedMass', 1.5934, ...
+                        'MolarActivity', 107.66);
+
+dcm2niix4pet(dcmfolder, meta, 'o', mynewfolder);</code></pre>
+</div>
+<p>Now you have a dataset in <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr> format.
+You will probably have gotten some warnings relating to the <code>.json</code> sidecar file.
+Carefully look at them, since they will help you to catch inconsistencies
+and missing required fields that you need to add
+in order for the dataset to pass the <abbr title="Brain Imaging Data Structure">BIDS</abbr> validator as well (see below how that's done).</p>
+<p>You can always edit the <code>.json</code> file, by opening it in a text editor and manually fixing errors.</p>
+<p>Alternatively, adjust the meta structure you created above to correct the errors.</p>
+<h3 id="manual-conversion-of-pet-data-to-pet-bids"><a class="toclink" href="#manual-conversion-of-pet-data-to-pet-bids">Manual conversion of <abbr title="Positron Imaging Tomography">PET</abbr> data to <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr></a><a class="headerlink" href="#manual-conversion-of-pet-data-to-pet-bids" title="Permanent link">&para;</a></h3>
+<p>As stated above <abbr title="Positron Imaging Tomography">PET</abbr> files come of the scanner in various formats.
+In the following manual data conversion is shown for an ECAT (.v)
+as well as a DICOM (.dcm) <abbr title="Positron Imaging Tomography">PET</abbr> image dataset.</p>
+<h4 id="pet-image-data-in-ecat-format"><a class="toclink" href="#pet-image-data-in-ecat-format"><abbr title="Positron Imaging Tomography">PET</abbr> image data in ECAT format</a><a class="headerlink" href="#pet-image-data-in-ecat-format" title="Permanent link">&para;</a></h4>
+<p>Here is the structure of our starting dataset:</p>
+<pre class="highlight"><code class="language-bash">OldNotBidsPETDataSet/
+├── MR_image
+│   ├── 24310.cropped.hdr
+│   ├── 24310.cropped.img
+│   └── 24310_rois.mat
+├── retest_scan_sub01
+│   ├── sub01_8__PLASMA.txt
+│   └── sub01_8_anon.v
+└── test_scan_sub01
+    ├── sub01_7_PLASMA.txt
+    └── sub01_7_anon.v
+
+3 directories, 7 files</code></pre>
+<p>By the end of this document our starting dataset will be fully <abbr title="Brain Imaging Data Structure">BIDS</abbr> compliant
+and similar to the dataset seen
+<a href="https://github.com/bids-standard/bids-examples/tree/master/pet001">here</a>.</p>
+<h4 id="setting-the-layout"><a class="toclink" href="#setting-the-layout">Setting the layout</a><a class="headerlink" href="#setting-the-layout" title="Permanent link">&para;</a></h4>
+<p>This starter kit provides several template/example files
+that can be a great starting place to help get set up for the conversion process.
+<abbr title="Positron Imaging Tomography">PET</abbr> specific text data files can be viewed at
+<a href="https://github.com/bids-standard/bids-starter-kit/tree/main/templates/sub-01/ses-01/pet">this location</a>.
+and easily collected via this
+<a href="https://github.com/bids-standard/bids-starter-kit/archive/refs/heads/main.zip">link</a>
+or be cloned and extracted via git at the command line via:</p>
+<pre class="highlight"><code class="language-bash">git clone git@github.com:bids-standard/bids-starter-kit.git</code></pre>
+<p>The <a href="https://github.com/bids-standard/bids-starter-kit/tree/main/templates/sub-01/ses-01/pet"><code>templates/</code></a>
+folder in <code>bids-starter-kit/</code> contains a single subject
+and examples of every <abbr title="Brain Imaging Data Structure">BIDS</abbr> modality text and <code>.json</code> file for that subject.
+Additionally, there exists a <code>Short</code> and a <code>Full</code> example for each text/json file.
+The <code>Short</code> files contain only the required <abbr title="Brain Imaging Data Structure">BIDS</abbr> fields for each modality
+and the <code>Full</code> example files contain <em>every</em> field included within the <abbr title="Brain Imaging Data Structure">BIDS</abbr> standard.</p>
+<pre class="highlight"><code class="language-bash">templates/
+├── README
+├── dataset_description.json
+├── participants.json
+├── participants.tsv
+├── phenotype
+│   ├── EpilepsyClassification.tsv
+│   └── EpilepsyClassification2017.json
+└── sub-01
+    └── ses-01
+        ├── anat
+        │   ├── sub-01_ses-01_acq-FullExample_run-01_T1w.json
+        │   └── sub-01_ses-01_acq-ShortExample_run-01_T1w.json
+        ├── eeg
+        │   ├── sub-01_ses-01_task-FilterExample_eeg.json
+        │   ├── sub-01_ses-01_task-FullExample_eeg.json
+        │   ├── sub-01_ses-01_task-MinimalExample_eeg.json
+        │   └── sub-01_ses-01_task-ReferenceExample_eeg.json
+        ├── fmap
+        │   ├── sub-01_ses-01_task-Case1_run-01_phasediff.json
+        │   ├── sub-01_ses-01_task-Case2_run-01_phase1.json
+        │   ├── sub-01_ses-01_task-Case2_run-01_phase2.json
+        │   ├── sub-01_ses-01_task-Case3_run-01_fieldmap.json
+        │   └── sub-01_ses-01_task-Case4_dir-LR_run-01_epi.json
+        ├── func
+        │   ├── sub-01_ses-01_task-FullExample_run-01_bold.json
+        │   ├── sub-01_ses-01_task-FullExample_run-01_events.json
+        │   ├── sub-01_ses-01_task-FullExample_run-01_events.tsv
+        │   └── sub-01_ses-01_task-ShortExample_run-01_bold.json
+        ├── ieeg
+        │   ├── sub-01_ses-01_coordsystem.json
+        │   ├── sub-01_ses-01_electrodes.tsv
+        │   ├── sub-01_ses-01_task-LongExample_run-01_channels.tsv
+        │   └── sub-01_ses-01_task-LongExample_run-01_ieeg.json
+        ├── meg
+        │   ├── sub-01_task-FullExample_acq-CTF_run-1_proc-sss_meg.json
+        │   └── sub-01_task-ShortExample_acq-CTF_run-1_proc-sss_meg.json
+        └── pet
+            ├── sub-01_ses-01_recording-AutosamplerShortExample_blood.json
+            ├── sub-01_ses-01_recording-AutosamplerShortExample_blood.tsv
+            ├── sub-01_ses-01_recording-ManualFullExample_blood.json
+            ├── sub-01_ses-01_recording-ManualFullExample_blood.tsv
+            ├── sub-01_ses-01_recording-ManualShortExample_blood.json
+            ├── sub-01_ses-01_recording-ManualShortExample_blood.tsv
+            ├── sub-01_ses-01_task-FullExample_pet.json
+            └── sub-01_ses-01_task-ShortExample_pet.json
+
+10 directories, 35 files
+machine:bids-starter-kit user$</code></pre>
+<p>For the purposes of this exercise we will only be focusing on obtaining the minimum required fields,
+thus we collect and copy the following to our own <abbr title="Brain Imaging Data Structure">BIDS</abbr> folder.</p>
+<pre class="highlight"><code class="language-bash"># create the new BIDS folder
+mkdir -p /NewBidsDataSet/sub-01/ses-01/pet
+cp -r /path/to/bids-starter-kit/templates/sub-01/ses-01/pet/* /NewBidsDataSet/sub-01/pet/</code></pre>
+<p>Oops, we forgot to include our dataset specific files.
+Let's make it easy on ourselves and include the templates for those too.</p>
+<pre class="highlight"><code class="language-bash">cp /path/to/bids-starter-kit/templates/* /NewBidsDataSet/</code></pre>
+<p>Our skeleton of a data set should now look like this:</p>
+<pre class="highlight"><code class="language-bash">machine: Projects user$ tree NewBidsDataSet/
+NewBidsDataSet/
+├── README
+├── dataset_description.json
+├── participants.json
+├── participants.tsv
+└── sub-01
+    └── ses-01
+        └── pet
+            ├── sub-01_ses-01_recording-AutosamplerShortExample_blood.json
+            ├── sub-01_ses-01_recording-AutosamplerShortExample_blood.tsv
+            ├── sub-01_ses-01_recording-ManualFullExample_blood.json
+            ├── sub-01_ses-01_recording-ManualFullExample_blood.tsv
+            ├── sub-01_ses-01_recording-ManualShortExample_blood.json
+            ├── sub-01_ses-01_recording-ManualShortExample_blood.tsv
+            ├── sub-01_ses-01_task-FullExample_pet.json
+            └── sub-01_ses-01_task-ShortExample_pet.json
+
+3 directories, 12 files
+machine:Projects user$</code></pre>
+<p>Now let's do the bare minimum and focus only on the short files:</p>
+<pre class="highlight"><code class="language-bash">machine:Projects user$ rm -rf NewBidsDataSet/sub-01/ses-01/pet/*Full*
+machine:Projects user$ tree NewBidsDataSet
+NewBidsDataSet/
+├── README
+├── dataset_description.json
+├── participants.json
+├── participants.tsv
+└── sub-01
+    └── ses-01
+        └── pet
+            ├── sub-01_ses-01_recording-AutosamplerShortExample_blood.json
+            ├── sub-01_ses-01_recording-AutosamplerShortExample_blood.tsv
+            ├── sub-01_ses-01_recording-ManualShortExample_blood.json
+            ├── sub-01_ses-01_recording-ManualShortExample_blood.tsv
+            └── sub-01_ses-01_task-ShortExample_pet.json
+
+3 directories, 9 files
+machine:Projects user$</code></pre>
+<p>That certainly looks less daunting, now let's change the filenames of the templates
+so that they make more sense for our data set (by removing <code>ShortExample</code> from each filename).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have multiple <abbr title="Positron Imaging Tomography">PET</abbr> image files you can distinguish between them
+by creating a session folder with a unique name
+and then applying the <code>ses-&lt;label&gt;</code> label to each file therein.
+If there's a single pet scan you may omit the additional folder
+and corresponding label(s) from the filename.
+For more information on labeling see <a href="https://bids-specification.readthedocs.io/en/stable/04-modality-specific-files/09-positron-emission-tomography.html#pet-recording-data">this link</a>.</p>
+</div>
+<pre class="highlight"><code class="language-bash"># for those of you in bash land
+machine:Projects user$ cd NewBidsDataSet/sub-01/ses-01/pet
+machine:pet user$ for i in *ShortExample*; do mv "$i" "`echo $i | sed 's/ShortExample//'`"; done
+
+# Since we "don't" know if there are multiple PET image files
+# we will omit the task label for our PET .json file for now.
+machine:pet user$ mv sub-01_ses-01_task-_pet.json sub-01-ses-01_pet.json</code></pre>
+<p>After you've renamed your files your directory should look something like:</p>
+<pre class="highlight"><code class="language-bash">machine:Projects user$ tree NewBidsDataSet/
+NewBidsDataSet/
+├── README
+├── dataset_description.json
+├── participants.json
+├── participants.tsv
+└── sub-01
+    └── ses-01
+        └── pet
+            ├── sub-01_ses-01_pet.json
+            ├── sub-01_ses-01_recording-Autosampler_blood.json
+            ├── sub-01_ses-01_recording-Autosampler_blood.tsv
+            ├── sub-01_ses-01_recording-Manual_blood.json
+            └── sub-01_ses-01_recording-Manual_blood.tsv
+
+3 directories, 9 files
+machine:Projects user$</code></pre>
+<p>Ok great, but where do the imaging files go?
+And what format should they be in?
+And there's at least 2 <code>.v</code> pet files shouldn't there be multiple sessions?</p>
+<p>Well yes, yes, and yes. but before we add more sessions/directories
+we're going to make sure we have images to place in them.</p>
+<h4 id="collecting-and-installing-tpcclib"><a class="toclink" href="#collecting-and-installing-tpcclib">Collecting and installing TPCCLIB</a><a class="headerlink" href="#collecting-and-installing-tpcclib" title="Permanent link">&para;</a></h4>
+<p>Since our raw imaging files are in ECAT format,
+we'll be using the <code>ecat2nii</code> tool it the Turku <abbr title="Positron Imaging Tomography">PET</abbr> Center C library (<code>TPCCLIIB</code>)
+as it's very handy at converting <abbr title="Positron Imaging Tomography">PET</abbr> ECAT images into the more <abbr title="Brain Imaging Data Structure">BIDS</abbr> friendly nifti format.
+If you're imaging files are in <code>.IMG</code> you can use **&lt;\insert converter&gt;**
+or if they're in DICOM <code>dcm2niix</code> is an excellent tool to transform <code>.dcm</code> files into <code>.nii</code>.</p>
+<p>Before we proceed we will need to collect and install the <code>ecat2nii</code> tool from the <code>TPCCLIIB</code> a container,
+or a VM if you want to continue following along.</p>
+<p>If you're on a non-posix based OS, we suggest you use WSL (windows subsystem for linux).</p>
+<ol>
+<li>
+<p>Visit <a href="https://gitlab.utu.fi/vesoik/tpcclib">https://gitlab.utu.fi/vesoik/tpcclib</a></p>
+</li>
+<li>
+<p>Download tpcclib via your download link of choice, ours is
+    <a href="https://gitlab.utu.fi/vesoik/tpcclib/-/archive/master/tpcclib-master.zip">here</a></p>
+</li>
+<li>
+<p>Once downloaded extract and place <code>ecat2nii</code> in an appropriate place</p>
+</li>
+</ol>
+<p>If you're using bash/posix step 3 will resemble something like the following:</p>
+<pre class="highlight"><code class="language-bash">machine:Downloads user$ unzip tpcclib-master.zip
+machine:Downloads user$ mv tpcclib-master /some/directory/you/are/fond/of/ # could be /usr/bin if you so choose</code></pre>
+<p>Now you can choose to add <code>tpcclib</code> to your path or not, in bash land we do the following:</p>
+<pre class="highlight"><code class="language-bash">machine:Downloads user$ echo "export PATH=$PATH:/some/directory/you/are/fond/of/tpcclib-master" &gt;&gt; ~/.bashrc
+
+# reload bash shell and verify that library is available
+machine:Downloads user$ source ~/.bashrc
+
+machine:Downloads user$ ecat2nii
+  ecat2nii - tpcclib 0.7.6 (c) 2020 by Turku PET Center
+
+  Converts PET images from ECAT 6.3 or 7 to NIfTI-1 format.
+  Conversion can also be done using ImageConverter (.NET application).
+
+  Image byte order is determined by the computer where the program is run.
+  NIfTI image format does not contain information on the frame times.
+  Frame times can be retrieved from SIF file, which can be created optionally.
+  SIF can also be created later using other software.
+
+  Usage: ecat2nii [Options] ecatfile(s)
+
+  Options:
+   -O=&lt;output path&gt;
+       Data directory for NIfTI files, if other than the current working path.
+   -dual
+       Save the image in dual file format (the header and voxel data in
+       separate files *.hdr and *.img); single file format (*.nii)
+       is the default.
+   -sif
+       SIF is saved with NIfTI; note that existing SIF will be overwritten.
+   -h, --help
+       Display usage information on standard output and exit.
+   -v, --version
+       Display version and compile information on standard output and exit.
+   -d[n], --debug[=n], --verbose[=n]
+       Set the level (n) of debugging messages and listings.
+   -q, --quiet
+       Suppress displaying normal results on standard output.
+   -s, --silent
+       Suppress displaying anything except errors.
+
+  Example:
+    ecat2nii *.v
+
+  See also: nii2ecat, nii_lhdr, ecat2ana, eframe, img2flat
+
+  Keywords: image, format conversion, ECAT, NIfTI
+
+  This program comes with ABSOLUTELY NO WARRANTY.
+  This is free software, and you are welcome to redistribute it under
+  GNU General Public License. Source codes are available in
+  https://gitlab.utu.fi/vesoik/tpcclib.git</code></pre>
+<p>Congrats, you've installed <code>ecat2nii</code>, you're one step closer to bidsifying your dataset</p>
+<p>Now, let's convert one of our <abbr title="Positron Imaging Tomography">PET</abbr> ECAT images
+and move it to its final destination with <code>ecat2nii</code> that we just installed.</p>
+<pre class="highlight"><code class="language-bash"># first create nifti's from the ecat images
+machine:OldNotBidsPETDataSet user$ ecat2nii retest_scan_sub01/sub01_8_anon.v
+retest_scan_sub01/sub01_8_anon.v :
+  processing retest_scan_sub01/sub01_8_anon.v
+  45 frame(s) processed.
+
+machine:OldNotBidsPETDataSet user$ ecat2nii test_scan_sub01/sub01_7_anon.v
+test_scan_sub01/sub01_7_anon.v :
+  processing test_scan_sub01/sub01_7_anon.v
+  45 frame(s) processed.
+
+# great success! let's see what we got
+machine:OldNotBidsPETDataSet user$ tree
+.
+├── MR_image
+│   ├── 24310.cropped.hdr
+│   ├── 24310.cropped.img
+│   └── 24310_rois.mat
+├── retest_scan_sub01
+│   ├── sub01_8_PLASMA.txt
+│   └── sub01_8_anon.v
+├── sub01_7_anon.nii
+├── sub01_8_anon.nii
+└── test_scan_sub01
+    ├── sub01_7_PLASMA.txt
+    └── sub01_7_anon.v
+
+3 directories, 9 files
+
+# not where we want those nifti's so let's move them
+machine:OldNotBidsPETDataSet user$ mv *.nii ../NewBidsDataSet/sub-01/
+
+machine:NewBidsDataSet user$ tree
+.
+├── README
+├── dataset_description.json
+├── participants.json
+├── participants.tsv
+└── sub-01
+    └── test_scan_sub01/sub01_7_anon.nii
+    └── test_scan_sub01/sub01_8_anon.nii
+    └── ses-01
+        └── pet
+            ├── sub-01_ses-01_pet.json
+            ├── sub-01_ses-01_recording-Autosampler_blood.json
+            ├── sub-01_ses-01_recording-Autosampler_blood.tsv
+            ├── sub-01_ses-01_recording-Manual_blood.json
+            ├── sub-01_ses-01_recording-Manual_blood.tsv
+
+3 directories, 11 files</code></pre>
+<p>Before we get too carried away, lets use populate our <code>*_pet.json</code> files
+with the relevant information from our ECAT and dataset.</p>
+<p>This writer used a python tool specifically created to parse ECAT's
+for header and subheader info <a href="https://github.com/bendhouseart/ecatdump">ecatdump</a>.
+All it does is use Python libraries Nibabel and Argparse
+to collect and spit out the header information from an ECAT file.</p>
+<p>You can use and install it via pip and use it on your command line like below:</p>
+<pre class="highlight"><code class="language-bash">pip install ecatdump
+
+# use the --json argument to extract all metadata contained in the ecat including subheaders
+ecatdump  anon_sub01_8.v --json &gt; sub01_8_anon.headerdata
+
+# using it without the --json argument will produce this output
+ecat dump anon_sub01_8.v
+magic_number: MATRIX72v
+original_filename: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+sw_version: 72
+system_type: 962
+file_type: 7
+serial_number: hrplus
+scan_start_time: 1111111111111
+isotope_name: C-11
+isotope_halflife: 1223.0
+radiopharmaceutical: C-11 Flumazenil
+gantry_tilt: 0.0
+gantry_rotation: 0.0
+bed_elevation: 82.6520004272461
+intrinsic_tilt: 0.0
+wobble_speed: 0
+transm_source_type: 2
+distance_scanned: 15.520000457763672
+transaxial_fov: 58.29999923706055
+angular_compression: 1
+coin_samp_mode: 0
+axial_samp_mode: 0
+ecat_calibration_factor: 9698905.0
+calibration_unitS: 1
+calibration_units_type: 1
+compression_code: 0
+study_type: XXXXXXXXXXXX
+patient_id: 0000000000000000
+patient_name: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+patient_sex: F
+patient_dexterity: U
+patient_age: 0.0
+patient_height: 0.0
+patient_weight: 0.0
+patient_birth_date: 0
+physician_name:
+operator_name:
+study_description: C-11 Dynamic-1
+acquisition_type: 4
+patient_orientation: 3
+facility_name: ECAT
+num_planes: 63
+num_frames: 20
+num_gates: 1
+num_bed_pos: 0
+init_bed_position: 50.617000579833984
+bed_position: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+plane_separation: 0.24250000715255737
+lwr_sctr_thres: 0
+lwr_true_thres: 350
+upr_true_thres: 650
+user_process_code:
+acquisition_mode: 0
+bin_size: 0.22499999403953552
+branching_fraction: 1.0
+dose_start_time: 111111111111
+dosage: 0.0
+well_counter_corr_factor: 1.0
+data_units:
+septa_state: 1
+fill:</code></pre>
+<p>Using nibabel directly also works great:</p>
+<!--
+machine:retest_scan_anon_sub01_8 user$ python3
+Python 3.7.3 (default, Mar 27 2019, 09:23:15)
+[Clang 10.0.1 (clang-1001.0.46.3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+-->
+
+<pre class="highlight"><code class="language-python">&gt;&gt;&gt; import nibabel
+&gt;&gt;&gt; ecat_file = nibabel.ecat.load('anon_sub01_8_43e5_1b831_de2_anon.v')
+&gt;&gt;&gt; print(ecat_file.get_header())
+__main__:1: DeprecationWarning: get_header method is deprecated.
+Please use the ``img.header`` property instead.
+
+* deprecated from version: 2.1
+* Will raise &lt;class 'nibabel.deprecator.ExpiredDeprecationError'&gt; as of version: 4.0
+&lt;class 'nibabel.ecat.EcatHeader'&gt; object, endian='&gt;'
+magic_number              : b'MATRIX72v'
+original_filename         : b'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+sw_version                : 72
+system_type               : 962
+file_type                 : 7
+serial_number             : b'hrplus'
+scan_start_time           : 1111111111
+isotope_name              : b'C-11'
+isotope_halflife          : 1223.0
+radiopharmaceutical       : b'C-11 Flumazenil'
+gantry_tilt               : 0.0
+gantry_rotation           : 0.0
+bed_elevation             : 82.652
+intrinsic_tilt            : 0.0
+wobble_speed              : 0
+transm_source_type        : 2
+distance_scanned          : 15.52
+transaxial_fov            : 58.3
+angular_compression       : 1
+coin_samp_mode            : 0
+axial_samp_mode           : 0
+ecat_calibration_factor   : 9698905.0
+calibration_unitS         : 1
+calibration_units_type    : 1
+compression_code          : 0
+study_type                : b'XXXXXXXXXXXX'
+patient_id                : b'0000000000000000'
+patient_name              : b'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+patient_sex               : b'F'
+patient_dexterity         : b'U'
+patient_age               : 0.0
+patient_height            : 0.0
+patient_weight            : 0.0
+patient_birth_date        : 0
+physician_name            : b''
+operator_name             : b''
+study_description         : b'C-11 Dynamic-1'
+acquisition_type          : 4
+patient_orientation       : 3
+facility_name             : b'ECAT'
+num_planes                : 63
+num_frames                : 20
+num_gates                 : 1
+num_bed_pos               : 0
+init_bed_position         : 50.617
+bed_position              : [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+plane_separation          : 0.2425
+lwr_sctr_thres            : 0
+lwr_true_thres            : 350
+upr_true_thres            : 650
+user_process_code         : b''
+acquisition_mode          : 0
+bin_size                  : 0.225
+branching_fraction        : 1.0
+dose_start_time           : 1111111111111
+dosage                    : 0.0
+well_counter_corr_factor  : 1.0
+data_units                : b''
+septa_state               : 1
+fill                      : b''</code></pre>
+<p>Using your wits, the available tools, and data you should be able
+to produce a sidecar file like the following for your nifti image.
+Repeat this process for each image file/nifti you're including
+while reusing the filename for each image
+and while substituting the extension to <code>.json</code> instead of <code>.nii</code>.</p>
+<pre class="highlight"><code class="language-json">{
+    "Manufacturer": "Siemens",
+    "ManufacturersModelName": "HR+",
+    "Units": "Bq/mL",
+    "BodyPart": "Brain",
+    "TracerName": "DASB",
+    "TracerRadionuclide": "C11",
+    "TracerMolecularWeight": 282.39,
+    "TracerMolecularWeightUnits": "g/mol",
+    "InjectedRadioactivity": 629.74,
+    "InjectedRadioactivityUnits": "MBq",
+    "MolarActivity": 55.5,
+    "MolarActivityUnits": "MBq/nmol",
+    "SpecificRadioactivity": 196.53670455752683,
+    "SpecificRadioactivityUnits": "MBq/ug",
+    "Purity": 99,
+    "ModeOfAdministration": "bolus",
+    "InjectedMass": 3.2041852,
+    "InjectedMassUnits": "ug",
+    "AcquisitionMode": "list mode",
+    "ImageDecayCorrected": true,
+    "ImageDecayCorrectionTime": 0,
+    "TimeZero": "17:28:40",
+    "ScanStart": 0,
+    "InjectionStart": 0,
+    "FrameDuration": [
+        20, 20, 20, 60, 60, 60, 120, 120, 120, 300, 300.066, 600, 600, 600, 600,
+        600, 600, 600, 600, 600, 600
+    ],
+    "FrameTimesStart": [
+        0, 20, 40, 60, 120, 180, 240, 360, 480, 600, 900, 1200.066, 1800.066,
+        2400.066, 3000.066, 3600.066, 4200.066, 4800.066, 5400.066, 6000.066,
+        6600.066
+    ],
+    "ReconMethodParameterLabels": [
+        "lower_threshold",
+        "upper_threshold",
+        "recon_zoom"
+    ],
+    "ReconMethodParameterUnits": ["keV", "keV", "none"],
+    "ReconMethodParameterValues": [350, 650, 3],
+    "ScaleFactor": [
+        8.548972374455843e-8, 1.7544691388593492e-7, 1.3221580275057931e-7,
+        1.2703590357432404e-7, 1.1155360368775291e-7, 2.2050951997698576e-7,
+        2.184752503353593e-7, 1.7056818535365892e-7, 1.6606901453997125e-7,
+        1.5532630470715958e-7, 2.19175134930083e-7, 2.0248222654117853e-7,
+        2.277063231304055e-7, 2.425933018912474e-7, 2.3802238047210267e-7,
+        2.514642005735368e-7, 2.802861729378492e-7, 2.797820570776821e-7,
+        3.5299004252919985e-7, 4.6313422785715375e-7, 4.904185857412813e-7
+    ],
+    "ScatterFraction": [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ],
+    "DecayCorrectionFactor": [
+        1.0056782960891724, 1.0171427726745605, 1.0287377834320068,
+        1.0522810220718384, 1.0886797904968262, 1.1263376474380493,
+        1.1851094961166382, 1.2685142755508423, 1.3577889204025269,
+        1.5278561115264893, 1.811025857925415, 2.328737735748291,
+        3.271937131881714, 4.597157001495361, 6.459125518798828,
+        9.075239181518555, 12.750947952270508, 17.915414810180664,
+        25.1716251373291, 35.36678695678711, 49.69125747680664
+    ],
+    "PromptRate": [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ],
+    "RandomRate": [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ],
+    "SinglesRate": [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ],
+    "ReconMethodName": "Vendor",
+    "ReconFilterType": ["Shepp 0.5", "All-pass 0.4"],
+    "ReconFilterSize": [2.5, 2],
+    "AttenuationCorrection": "transmission scan"
+}</code></pre>
+<p>Alright, now we're getting somewhere, let's rename these niftis
+so that it's easier to distinguish between them
+and so that they're both <abbr title="Brain Imaging Data Structure">BIDS</abbr> compliant.</p>
+<pre class="highlight"><code class="language-bash"># first lets divide the scans into their own sessions
+machine:NewBidsDataSet user$ mv sub-01/ses-01/ sub-01/ses-testscan/
+
+# and make a second session folder for the rescan
+machine:NewBidsDataSet user$ cp -r sub-01/ses-testscan/ sub-01/ses-retestscan/
+machine:NewBidsDataSet user$ mv sub-01/sub01_7_anon.nii sub-01/ses-testscan/pet/sub-01_ses-testscan_pet.nii
+machine:NewBidsDataSet user$ mv sub-01/sub01_8_anon.nii sub-01/ses-retestscan/pet/sub-01_ses-retestscan_pet.nii
+
+# some additional bash later and ......
+machine:NewBidsDataSet user$ tree
+.
+├── README
+├── dataset_description.json
+├── participants.json
+├── participants.tsv
+└── sub-01
+    ├── ses-retestscan
+    │   └── pet
+    │       ├── sub-01_ses-retestscan_pet.json
+    │       ├── sub-01_ses-retestscan_recording-Autosampler_blood.json
+    │       ├── sub-01_ses-retestscan_recording-Autosampler_blood.tsv
+    │       ├── sub-01_ses-retestscan_recording-Manual_blood.json
+    │       ├── sub-01_ses-retestscan_recording-Manual_blood.tsv
+    │       └── sub-01_ses-retestscan_pet.nii
+    └── ses-testscan
+        └── pet
+            ├── sub-01_ses-testscan_pet.json
+            ├── sub-01_ses-testscan_recording-Autosampler_blood.json
+            ├── sub-01_ses-testscan_recording-Autosampler_blood.tsv
+            ├── sub-01_ses-testscan_recording-Manual_blood.json
+            ├── sub-01_ses-testscan_recording-Manual_blood.tsv
+            └── sub-01_ses-testscan_pet.nii
+
+5 directories, 16 files</code></pre>
+<p>That looks better, but we need to do something about our tabular/text data.
+Since we're only dealing with manual blood samples we can omit the autosampler
+files from our data structure.</p>
+<pre class="highlight"><code class="language-bash">machine:NewBidsDataSet user$ rm -rf sub-01/ses-retestscan/pet/*Auto*
+machine:NewBidsDataSet user$ rm -rf sub-01/ses-testscan/pet/*Auto*
+machine:NewBidsDataSet user$ tree
+.
+├── README
+├── dataset_description.json
+├── participants.json
+├── participants.tsv
+└── sub-01
+    ├── ses-retestscan
+    │   └── pet
+    │       ├── sub-01_ses-retestscan_pet.json
+    │       ├── sub-01_ses-retestscan_recording-Manual_blood.json
+    │       ├── sub-01_ses-retestscan_recording-Manual_blood.tsv
+    │       └── sub-01_ses-retestscan_pet.nii
+    └── ses-testscan
+        └── pet
+            ├── sub-01_ses-testscan_pet.json
+            ├── sub-01_ses-testscan_recording-Manual_blood.json
+            ├── sub-01_ses-testscan_recording-Manual_blood.tsv
+            └── sub-01_ses-testscan_run-testscan_pet.nii
+</code></pre>
+<p>That looks better, now that we've got our nifti's sorted
+let's do something about filling out our <code>*_blood.tsv</code> files and our <code>*_blood.json</code> files.</p>
+<!-- TODO grab that image and add to the repo -->
+
+<p>Here's are the contents of <code>sub01_7_PLASMA.txt</code>:
+<img alt="sub01_7_PLASMA.txt screenshot of excel" src="https://i.imgur.com/xBgDZcI.png" /></p>
+<p>Since our plasma data is available we need to indicate as such
+in our <code>*_blood.json</code> files so we do so now:</p>
+<pre class="highlight"><code class="language-json">{
+    "PlasmaAvail": "true",
+    "MetaboliteAvail": "true",
+    "WholeBloodAvail": "false",
+    "DispersionCorrected": "false",
+    "MetaboliteMethod": "HPLC",
+    "MetaboliteRecoveryCorrectionApplied": "false",
+    "time": {
+        "Description": "Time in relation to time zero defined by the _pet.json",
+        "Units": "s"
+    },
+    "plasma_radioactivity": {
+        "Description": "Radioactivity in plasma samples",
+        "Units": "Bq/mL"
+    }
+    "metabolite_parent_fraction": {
+        "Description": "Parent fraction of the radiotracer.",
+        "Units": "unitless"
+    }
+}</code></pre>
+<p>Additionally, we can open our <code>*_blood.tsv</code>
+and add the plasma series of data to it from our base text file:</p>
+<!-- TODO grab that image and add to the repo -->
+
+<p><img alt="screenshot of unconverted sub-01_ses-testscan_recording-Manual_blood.tsv" src="https://i.imgur.com/VdFqh6H.png" /></p>
+<p>Whoops, these numbers aren't in SI units, so we quickly convert time
+from minutes to seconds and Microcurie to Becquerel to conform to the specification.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you're wondering what method was used to determine what units these unlabeled columns were in
+we can only tell you that prior knowledge, access to the associated publishing,
+or experience/domain knowledge coupled with a bit of guesswork
+are required to make that determination.
+One of the aims of adding <abbr title="Positron Imaging Tomography">PET</abbr> to <abbr title="Brain Imaging Data Structure">BIDS</abbr> is to help to avoid confusion at this level of the process
+and instead allow researchers to reserve that confusion
+for use at some other point during the research process.</p>
+</div>
+<p>After a bit of conversion and the inclusion of the metabolite parent fraction
+(which if present is
+<a href="https://bids-specification.readthedocs.io/en/stable/04-modality-specific-files/09-positron-emission-tomography.html#blood-recording-data">recommended</a>
+to be included):</p>
+<!-- TODO grab that image and add to the repo -->
+
+<p><img alt="screenshot of converted and minimally complete manual_blood.tsv" src="https://i.imgur.com/nWXcFsw.png" /></p>
+<p>Now just repeat this process for each required field in the <code>*_blood.json</code> file
+and/or for each recommended field
+that you wish to include from your non-<abbr title="Brain Imaging Data Structure">BIDS</abbr> dataset into this bidsified one.
+The final results of our efforts leads us to having this final <code>*blood_.json</code>:</p>
+<pre class="highlight"><code class="language-json">{
+    "PlasmaAvail": true,
+    "PlasmaFreeFraction": 15.062331,
+    "PlasmaFreeFractionMethod": "Ultrafiltration",
+    "WholeBloodAvail": false,
+    "DispersionCorrected": false,
+    "MetaboliteAvail": true,
+    "MetaboliteMethod": "HPLC",
+    "MetaboliteRecoveryCorrectionApplied": false,
+    "time": {
+        "Description": "Time in relation to time zero defined by the _pet.json",
+        "Units": "s"
+    },
+    "plasma_radioactivity": {
+        "Description": "Radioactivity in plasma samples",
+        "Units": "Bq/mL"
+    },
+    "metabolite_parent_fraction": {
+        "Description": "Parent fraction of the radiotracer",
+        "Units": "arbitrary"
+    }
+}</code></pre>
+<h4 id="last-pass"><a class="toclink" href="#last-pass">Last Pass</a><a class="headerlink" href="#last-pass" title="Permanent link">&para;</a></h4>
+<p>If you're thinking that we failed to document or include our T1 image
+from the start you would be correct.</p>
+<p>There are many resources documenting that process
+<a href="https://bids.neuroimaging.io/getting_started/tutorials/conversion/mri.html">here</a>.</p>
+<p>Once you've handled converting your MR images into <abbr title="Brain Imaging Data Structure">BIDS</abbr>
+your directory should look like the following:</p>
+<pre class="highlight"><code class="language-bash">
+machine:NewBidsDataSet user$ tree
+.
+├── README
+├── dataset_description.json
+├── participants.json
+├── participants.tsv
+└── sub-01
+    ├── ses-retestscan
+    │   └── pet
+    │       ├── sub-01_ses-retestscan_pet.json
+    │       ├── sub-01_ses-retestscan_recording-Manual_blood.json
+    │       ├── sub-01_ses-retestscan_recording-Manual_blood.tsv
+    │       └── sub-01_ses-retestscan_pet.nii
+    └── ses-testscan
+        ├── anat
+        │   ├── sub-01_ses-testscan_T1w.json
+        │   └── sub-01_ses-testscan_T1w.nii
+        └── pet
+            ├── sub-01_ses-testscan_pet.json
+            ├── sub-01_ses-testscan_recording-Manual_blood.json
+            ├── sub-01_ses-testscan_recording-Manual_blood.tsv
+            └── sub-01_ses-testscan_pet.nii</code></pre>
+<h2 id="validating-your-converted-pet-bids-data-set"><a class="toclink" href="#validating-your-converted-pet-bids-data-set">Validating your converted <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr> data set</a><a class="headerlink" href="#validating-your-converted-pet-bids-data-set" title="Permanent link">&para;</a></h2>
+<h3 id="installing-the-validator"><a class="toclink" href="#installing-the-validator">Installing the validator</a><a class="headerlink" href="#installing-the-validator" title="Permanent link">&para;</a></h3>
+<p>The above structure is a valid <abbr title="Brain Imaging Data Structure">BIDS</abbr> dataset,
+however the bids-validator is a much more accurate and trustworthy method
+for making that determination.
+Follow the instructions <a href="https://github.com/bids-standard/bids-validator">here</a>
+to collect and install the validator.</p>
+<h3 id="validating-your-new-dataset"><a class="toclink" href="#validating-your-new-dataset">Validating your new dataset</a><a class="headerlink" href="#validating-your-new-dataset" title="Permanent link">&para;</a></h3>
+<p>Using the validator installed above in the previous step point it at your data
+and check to see if your conversion was successful:</p>
+<pre class="highlight"><code class="language-bash">machine:Projects user$ bids-validator NewBidsDataSet/
+bids-validator@1.7.2
+
+ 1: [ERR] Invalid JSON file. The file is not formatted according the schema. (code: 55 - JSON_SCHEMA_VALIDATION_ERROR)
+  ./dataset_description.json
+   Evidence: .DatasetType should be equal to one of the allowed values
+  ./dataset_description.json
+   Evidence: .EthicsApprovals should be array
+
+ Please visit https://neurostars.org/search?q=DATASET_DESCRIPTION_JSON_MISSING for existing conversations about this issue.
+
+
+        Summary:               Available Tasks:        Available Modalities:
+        13 Files, 4.55GB                               pet
+        1 - Subject                                    blood
+        2 - Sessions                                   anat
+
+
+ If you have any questions, please post on https://neurostars.org/tags/bids.</code></pre>
+<p>Good enough! But, in all seriousness the error messages and output
+from the bids-validator are <strong>invaluable</strong> during the conversion process.
+The error messages will guide you to the correct format; do not fear them.
+Running the validator during the conversion process will help to increase your familiarity
+with the specification and ensure that your data is properly formatted.</p>
+<h2 id="tools-and-resources-for-pet-conversion"><a class="toclink" href="#tools-and-resources-for-pet-conversion">Tools and resources for <abbr title="Positron Imaging Tomography">PET</abbr> conversion</a><a class="headerlink" href="#tools-and-resources-for-pet-conversion" title="Permanent link">&para;</a></h2>
+<p>Some useful tools and resources that have been used in this document are as
+follows:</p>
+<ul>
+<li>
+<p><a href="https://github.com/bids-standard/bids-validator"><abbr title="Brain Imaging Data Structure">BIDS</abbr> Validator</a>, which fully supports <abbr title="Positron Imaging Tomography">PET</abbr></p>
+</li>
+<li>
+<p><a href="https://github.com/openneuropet/PET2BIDS">PET2BIDS</a> is a MATLAB and Python utility
+    for converting your data to <abbr title="Positron Imaging Tomography">PET</abbr> <abbr title="Brain Imaging Data Structure">BIDS</abbr> format</p>
+</li>
+<li>
+<p><a href="https://gitlab.utu.fi/vesoik/tpcclib">TPCCLIIB</a> is a command line library
+    containing (among many others) <abbr title="Positron Imaging Tomography">PET</abbr> tools such as <code>ecat2nii</code>
+    that will be used below to convert the imaging data from a <abbr title="Positron Imaging Tomography">PET</abbr> dataset into nifti format.
+    The Turku <abbr title="Positron Imaging Tomography">PET</abbr> Center site can be found <a href="https://turkupetcentre.fi/">here</a>
+    for additional information on anything <abbr title="Positron Imaging Tomography">PET</abbr>.</p>
+</li>
+<li>
+<p>a <a href="https://github.com/bids-standard/bids-starter-kit/tree/main/templates"><abbr title="Brain Imaging Data Structure">BIDS</abbr> <abbr title="Positron Imaging Tomography">PET</abbr> Template</a>
+    from this starter kit to initially populate
+    and translate text/tabulature/csv blood data
+    into <abbr title="Brain Imaging Data Structure">BIDS</abbr> <abbr title="Positron Imaging Tomography">PET</abbr> compliant <code>.tsv</code> and <code>.json</code> files.</p>
+</li>
+<li>
+<p><a href="https://github.com/rordenlab/dcm2niix">dcm2niix</a> can be used
+    if your raw pet data happens to be in a DICOM format.
+    Additionally this opens up the use of tools
+    such as <a href="https://support.dcmtk.org/docs/dcmdump.html">dcmdump</a>
+    from the <a href="https://support.dcmtk.org/docs/">dcmtk</a> to help in your conversion.</p>
+</li>
+</ul>
+<h2 id="final-thoughts"><a class="toclink" href="#final-thoughts">Final thoughts</a><a class="headerlink" href="#final-thoughts" title="Permanent link">&para;</a></h2>
+<p>As of now, <abbr title="Positron Imaging Tomography">PET</abbr> is still quite new to the <abbr title="Brain Imaging Data Structure">BIDS</abbr> standard,
+but at this very moment there are people working on stream-lining data collection
+and conversion to help move <abbr title="Positron Imaging Tomography">PET</abbr> into this standard.</p>
+<p>If you're reading this you've just become one of those people.
+Feel free to reach out to the <a href="https://openneuropet.github.io/">OpenNeuroPET project</a></p>
+<!-- links -->
+
+<!-- tool tips  -->
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 20:49:35 UTC">March 26, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="mri.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: MRI data conversion">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                MRI data conversion
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../how_to/index.html" class="md-footer__link md-footer__link--next" aria-label="Next: How to">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                How to
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; BIDS Contributors - <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://x.com/BIDSstandard/" target="_blank" rel="noopener" title="x.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M357.2 48h70.6L273.6 224.2 455 464H313L201.7 318.6 74.5 464H3.8l164.9-188.5L-5.2 48h145.6l100.5 132.9zm-24.8 373.8h39.1L119.1 88h-42z"/></svg>
+    </a>
+  
+    
+    
+      
+    
+    
+    
+      
+      
+    
+    <a href="https://fosstodon.org/@bidsstandard" target="_blank" rel="noopener me" title="fosstodon.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54-.6-4.6-.9-9.3-.9-13.9 85.6 20.9 158.7 9.1 178.7 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6V190.1c0-49.7-64-51.6-64 6.9v62.5H201V197c0-58.5-64-56.6-64-6.9v114.2H90.3c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://bsky.app/profile/bidsstandard.bsky.social/" target="_blank" rel="noopener" title="bsky.app" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://groups.google.com/g/bids-discussion" target="_blank" rel="noopener" title="groups.google.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M500 261.8C500 403.3 403.1 504 260 504 122.8 504 12 393.2 12 256S122.8 8 260 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C270.5 52.6 106.3 116.6 106.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H260v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.instagram.com/bidsstandard/" target="_blank" rel="noopener" title="www.instagram.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224.3 141a115 115 0 1 0-.6 230 115 115 0 1 0 .6-230m-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1-.6-149.2m93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1-53.6 0m129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8M399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.youtube.com/channel/UCxZUcYfd_nvIVWAbzRB1tlw" target="_blank" rel="noopener" title="www.youtube.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M549.7 124.1c-6.2-23.7-24.8-42.3-48.3-48.6C458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8C117.3 448 288.1 448 288.1 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6V175.2l142.7 81.2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["announce.dismiss", "content.action.edit", "content.code.copy", "content.tabs.link", "content.tooltips", "header.autohide", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js"></script>
+      
+        <script src="../../../javascripts/tablesort.js"></script>
+      
+        <script src="../../../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>
